@@ -36,7 +36,7 @@
         <CheckBox android:id="@+id/clock_onoff"
             android:focusable="false"
             android:clickable="false"
-            android:background="@drawable/indicator_clock_onoff"
+            android:background="@drawable/ic_clock_alarm_selected"
             android:duplicateParentState="true"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -49,17 +49,16 @@
             android:paddingTop="4dip"
             android:src="@drawable/ic_indicator_off" />
     </com.android.deskclock.DontPressWithParentLayout>
-
+	<!-- Begin, Modified by zhumeiquan, 20111014 -->
     <ImageView
         android:src="@drawable/divider_vertical_dark"
-        android:background="?android:attr/windowBackground"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingTop="4dip"
         android:paddingBottom="4dip"
         android:scaleType="fitXY"
         android:gravity="fill_vertical" />
-
+	<!-- End -->
     <!-- A layout that displays the time.  Shows time, am/pm (if 12-hour),
          and an optional line below, used for day/days of week -->
     <com.android.deskclock.DigitalClock android:id="@+id/digitalClock"
@@ -81,15 +80,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="6dip"
-                android:textSize="28sp"
-                android:textColor="?android:attr/textColorPrimary"/>
+                android:textSize="28sp" />
 
             <TextView android:id="@+id/am_pm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textStyle="bold"
-                android:textColor="?android:attr/textColorPrimary"/>
+                android:textStyle="bold" />
 
             <TextView android:id="@+id/label"
                 android:layout_width="wrap_content"
@@ -97,7 +94,6 @@
                 android:layout_weight="1"
                 android:paddingLeft="8dip"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="?android:attr/textColorTertiary"
                 android:textStyle="bold"
                 android:gravity="right"
                 android:singleLine="true"/>
@@ -108,8 +104,7 @@
             android:includeFontPadding="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="?android:attr/textColorSecondary"/>
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </com.android.deskclock.DigitalClock>
 

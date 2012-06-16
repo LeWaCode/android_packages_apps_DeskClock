@@ -386,7 +386,9 @@ public class Alarms {
         alarm.writeToParcel(out, 0);
         out.setDataPosition(0);
         intent.putExtra(ALARM_RAW_DATA, out.marshall());
-
+        //[Begin fulianwu, for lockscreen alarm,2011_10_19,add]
+		intent.putExtra("alarm_id",alarm.id);
+		//[End]
         PendingIntent sender = PendingIntent.getBroadcast(
                 context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 

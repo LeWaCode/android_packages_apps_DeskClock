@@ -14,20 +14,18 @@
     <uses-permission android:name="android.permission.DEVICE_POWER" />
 
     <application android:label="@string/app_label"
-                 android:icon="@drawable/ic_launcher_alarmclock">
+        android:icon="@drawable/ic_launcher_alarmclock">
 
         <provider android:name="AlarmProvider"
-                android:authorities="com.android.deskclock"
-                android:exported="false" />
+            android:authorities="com.android.deskclock"
+            android:exported="false" />
 
         <activity android:name="DeskClock"
-                android:label="@string/app_label"
-                android:theme="@android:style/Theme.Wallpaper.NoTitleBar"
-                android:icon="@drawable/ic_launcher_alarmclock"
-                android:launchMode="singleInstance"
-                android:configChanges="orientation|keyboardHidden|keyboard|navigation">
-                >
-
+            android:label="@string/app_label"
+            android:theme="@android:style/Theme.Wallpaper.NoTitleBar"
+            android:icon="@drawable/ic_launcher_alarmclock"
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation">
             <!-- while docked, this is our home application -->
             <meta-data android:name="android.dock_home" android:value="true" />
 
@@ -40,28 +38,27 @@
         </activity>
 
         <activity android:name="AlarmClock"
-                android:label="@string/alarm_list_title"
-                android:taskAffinity=""
-                android:excludeFromRecents="true"
-                android:configChanges="orientation|keyboardHidden|keyboard|navigation"
-                android:exported="true" />
+            android:label="@string/alarm_list_title"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation"
+            android:exported="true"
+            android:theme="@android:style/Theme.Light"/>
 
         <activity-alias android:name="com.android.alarmclock.AlarmClock"
-                android:targetActivity="com.android.deskclock.AlarmClock"
-                android:exported="true" />
+            android:targetActivity="com.android.deskclock.AlarmClock"
+            android:exported="true" />
 
         <activity android:name="SettingsActivity"
-                android:label="@string/settings"
-                android:taskAffinity=""
-                android:excludeFromRecents="true"
-                >
+            android:label="@string/settings"
+            android:taskAffinity=""
+            android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         
-        <activity 
-        	android:name="ColorPicker" 
+        <activity android:name="ColorPicker" 
 			android:label="@string/color_picker"
 			android:taskAffinity=""
 			android:excludeFromRecents="true"
@@ -73,7 +70,8 @@
 		</activity>
 
         <activity android:name="SetAlarm" android:label="@string/set_alarm"
-                android:configChanges="orientation|keyboardHidden|keyboard|navigation" />
+            android:configChanges="orientation|keyboardHidden|keyboard|navigation" 
+            android:theme="@android:style/Theme.Light"/>
 
         <activity android:name="AlarmAlert"
                 android:excludeFromRecents="true"

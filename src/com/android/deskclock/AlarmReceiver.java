@@ -20,17 +20,14 @@ import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.BroadcastReceiver;
-import android.database.Cursor;
 import android.os.Parcel;
 import android.text.TextUtils;
+import android.provider.Settings;
 
 import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Glue class: connects AlarmAlert IntentReceiver to AlarmAlert
@@ -41,6 +38,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     /** If the alarm is older than STALE_WINDOW, ignore.  It
         is probably the result of a time or timezone change */
     private final static int STALE_WINDOW = 30 * 60 * 1000;
+	//[Begin, for lockscreen style,fulianwu 20120104]
+	private static final int CURTAIN_LOCKSCREEN_STYLE = 6;
+	private static final int ANGRYBIRD_LOCKSCREEN_STYLE = 7;
+	//[End]
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -138,35 +139,51 @@ public class AlarmReceiver extends BroadcastReceiver {
         // Trigger a notification that, when clicked, will show the alarm alert
         // dialog. No need to check for fullscreen since this will always be
         // launched from a user action.
-        Intent notify = new Intent(context, AlarmAlert.class);
-        notify.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
-        PendingIntent pendingNotify = PendingIntent.getActivity(context,
+        
+        //[Begin fulianwu, for lockscreen alarm,2011_11_17,modify]
+        boolean isLockScreen = km.inKeyguardRestrictedInputMode();
+        int mLockscreenStyle = (Settings.System.getInt(context.getContentResolver(),
+            Settings.System.LOCKSCREEN_STYLE_PREF, ANGRYBIRD_LOCKSCREEN_STYLE));
+			
+		int lockscreenDisableOnSecurityValue = Settings.System.getInt(
+                context.getContentResolver(), Settings.System.LOCKSCREEN_DISABLE_ON_SECURITY, 0);
+        
+		if (isLockScreen && (mLockscreenStyle == CURTAIN_LOCKSCREEN_STYLE) && (lockscreenDisableOnSecurityValue != 1)) {
+			android.util.Log.i("AlarmReceiver","is in LockScreen");
+            Intent wakeLock = new Intent("com.lewa.action.AlarmNotifationService");
+            context.startService(wakeLock);
+		} else {
+			Intent notify = new Intent(context, AlarmAlert.class);
+			notify.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
+			PendingIntent pendingNotify = PendingIntent.getActivity(context,
                 alarm.id, notify, 0);
 
-        // Use the alarm's label or the default label as the ticker text and
-        // main text of the notification.
-        String label = alarm.getLabelOrDefault(context);
-        Notification n = new Notification(R.drawable.stat_notify_alarm,
-                label, alarm.time);
-        n.setLatestEventInfo(context, label,
-                context.getString(R.string.alarm_notify_text),
-                pendingNotify);
-        n.flags |= Notification.FLAG_SHOW_LIGHTS
-                | Notification.FLAG_ONGOING_EVENT;
-        n.defaults |= Notification.DEFAULT_LIGHTS;
+			// Use the alarm's label or the default label as the ticker text and
+			// main text of the notification.
+			String label = alarm.getLabelOrDefault(context);
+			Notification n = new Notification(R.drawable.stat_notify_alarm,
+					label, alarm.time);
+			n.setLatestEventInfo(context, label,
+					context.getString(R.string.alarm_notify_text),
+					pendingNotify);
+			n.flags |= Notification.FLAG_SHOW_LIGHTS
+					| Notification.FLAG_ONGOING_EVENT;
+			n.defaults |= Notification.DEFAULT_LIGHTS;
 
-        // NEW: Embed the full-screen UI here. The notification manager will
-        // take care of displaying it if it's OK to do so.
-        Intent alarmAlert = new Intent(context, c);
-        alarmAlert.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
-        alarmAlert.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
-        n.fullScreenIntent = PendingIntent.getActivity(context, alarm.id, alarmAlert, 0);
+			// NEW: Embed the full-screen UI here. The notification manager will
+			// take care of displaying it if it's OK to do so.
+			Intent alarmAlert = new Intent(context, c);
+			alarmAlert.putExtra(Alarms.ALARM_INTENT_EXTRA, alarm);
+			alarmAlert.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+					| Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+			n.fullScreenIntent = PendingIntent.getActivity(context, alarm.id, alarmAlert, 0);
 
-        // Send the notification using the alarm id to easily identify the
-        // correct notification.
-        NotificationManager nm = getNotificationManager(context);
-        nm.notify(alarm.id, n);
+			// Send the notification using the alarm id to easily identify the
+			// correct notification.
+			NotificationManager nm = getNotificationManager(context);
+			nm.notify(alarm.id, n);
+		}
+      //[End]
     }
 
     private NotificationManager getNotificationManager(Context context) {

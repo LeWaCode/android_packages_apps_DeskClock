@@ -33,7 +33,7 @@
             android:duplicateParentState="true"
             android:gravity="center"
             android:scaleType="center"
-            android:src="@drawable/add_alarm" />
+            android:src="@drawable/ic_clock_add_alarm_selected" />
 
         <TextView
             android:duplicateParentState="true"
@@ -41,7 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center_vertical"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="?android:attr/textColorPrimary"
             android:text="@string/add_alarm" />
 
     </LinearLayout>
@@ -62,17 +61,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:background="@drawable/bottom_background">
 
-        <ImageButton android:id="@+id/desk_clock_button"
-            style="@style/ButtonStripLeft"
+        <ImageView android:id="@+id/desk_clock_button"
+            android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="10dip"
             android:src="@drawable/ic_clock_strip_desk_clock"
             android:contentDescription="@string/desk_clock_button_description"/>
 
         <com.android.deskclock.DigitalClock
-            style="@style/ButtonStripRight"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -85,15 +86,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="6dip"
-                    android:textSize="48sp"
-                    android:textColor="?android:attr/textColorPrimary" />
+                    android:textSize="48sp" />
 
                 <TextView android:id="@+id/am_pm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textStyle="bold"
-                    android:textColor="?android:attr/textColorPrimary" />
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

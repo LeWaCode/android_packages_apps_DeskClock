@@ -231,8 +231,8 @@ public class AlarmClock extends Activity implements OnItemClickListener {
                 }
         });
 
-        ImageButton deskClock =
-                (ImageButton) findViewById(R.id.desk_clock_button);
+        ImageView deskClock =
+                (ImageView) findViewById(R.id.desk_clock_button);
         deskClock.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     startActivity(new Intent(AlarmClock.this, DeskClock.class));

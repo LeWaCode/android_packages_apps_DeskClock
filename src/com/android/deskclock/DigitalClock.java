@@ -32,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -69,7 +70,7 @@ public class DigitalClock extends LinearLayout {
 
     private static Typeface sTypeface;
 
-    static class AmPm {
+    class AmPm {
         private TextView mAmPm;
         private String mAmString, mPmString;
 
@@ -86,7 +87,11 @@ public class DigitalClock extends LinearLayout {
         }
 
         void setIsMorning(boolean isMorning) {
-            mAmPm.setText(isMorning ? mAmString : mPmString);
+            // Begin, modified by zhumeiquan for bug 7333, 20120606
+            int hour = mCalendar.get(Calendar.HOUR_OF_DAY);
+            String s = SimpleDateFormat.getAMPMString(hour, null, isMorning ? mAmString : mPmString);
+            mAmPm.setText(s);
+            // End
         }
     }
 
